@@ -1,13 +1,19 @@
+CC=gcc
+CFLAGS= -c -g
 
-ectpping : ectpping.c libenetaddr.o libectp.o
-	gcc -lpthread -Wall libenetaddr.o libectp.o ectpping.c -o ectpping
+DEPS =
+OBJ = ectpping.o libenetaddr.o libectp.o
+LIBS= -lpthread
 
-libenetaddr.o : libenetaddr.h libenetaddr.c
-	gcc -Wall -c libenetaddr.c
+%.o: %.c $(DEPS)
+	$(CC) $(CFLAGS) $<  -o $@
 
-libectp.o : libectp.h libectp.c
-	gcc -Wall -c libectp.c
+ectpping: $(OBJ)
+	$(CC) -o $@ $^ $(LIBS)
 
+
+.PHONY: clean
 clean:
-	rm -f ectpping libenetaddr.o libectp.o
+	rm -f *.o *~ core app
+
 
